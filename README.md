@@ -14,7 +14,7 @@ It shows the sessions you touched in the last 24 hours, the open rows of your ta
 
 **Done.** The latest closed rows (10 by default).
 
-`/board` or `/open-loops` opens the board. `/task <text>` asks Claude to add a row, taking a due date and a person from the text when it names them. With the default settings, starting a message with `task:` works too.
+`/board` or `/open-loops` opens the board. `/todo <text>` asks Claude to add a row, taking a due date and a person from the text when it names them. With the default settings, starting a message with `task:` works too.
 
 In the desktop app, a session you open or come back to may not have started Claude yet. The commands are listed once it has, so after your first message in that session.
 
@@ -73,11 +73,11 @@ The mod sends nothing over the network itself. Everything below happens on your 
 
 **What it writes.** Only your tasks file, at the path in the Tasks file setting. A change rewrites one row (add, done, drop); a file that does not exist yet is created with the table header. Nothing else on disk is written.
 
-**What it puts in your chat.** The buttons and `/task` submit a prompt as if you had typed it:
+**What it puts in your chat.** The buttons and `/todo` submit a prompt as if you had typed it:
 
 - `start`: "Start on task 7: "Write the launch post" (tasks.md row 7). Say in one line what you plan to do, then do it; when it is done ask me before marking the row done."
 - `chase`: "Chase task 5: "Numbers for the Q4 forecast", waiting on Sam (tasks.md row 5). Draft a short follow-up to Sam here in chat for me to send myself; don't send anything."
-- `/task <text>`: "Add a task to tasks.md: "<text>". One row in the table…", with the date, due date and who rules.
+- `/todo <text>`: "Add a task to tasks.md: "<text>". One row in the table…", with the date, due date and who rules.
 
 Claude only drafts a follow-up; the mod never sends a message to anyone.
 
@@ -85,7 +85,7 @@ Claude only drafts a follow-up; the mod never sends a message to anyone.
 
 **Programs it runs.** One: the `open` button on a session runs your system's own link opener (`open` on macOS, `xdg-open` on Linux, `start` on Windows) on that session's `claude://` link, which switches the desktop app to it. Nothing else is started.
 
-**Hooks.** Besides the prompt paragraph above, it registers `/board`, `/open-loops` and `/task` and answers them itself, rereads the tasks file and session records when a turn ends, and draws the board pane.
+**Hooks.** Besides the prompt paragraph above, it registers `/board`, `/open-loops` and `/todo` and answers them itself, rereads the tasks file and session records when a turn ends, and draws the board pane.
 
 ## Development
 

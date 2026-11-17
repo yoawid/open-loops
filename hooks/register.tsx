@@ -14,7 +14,7 @@ import { NEW_FILE, appendTask, dayOf, daysPast, parseTasks, setStatus } from './
 //          done / drop rewrite the file; start and chase hand the row to Claude
 //          in chat; open switches the app to a session.
 //   Done   the latest closed rows.
-// `/task <text>` asks Claude to add a row; `/open-loops` and `/board` open the pane.
+// `/todo <text>` asks Claude to add a row; `/open-loops` and `/board` open the pane.
 // The tasks file, your name and the rest come from the plugin's settings
 // (userConfig in plugin.json).
 
@@ -33,7 +33,7 @@ const scan = atom({ plugin: 'open-loops', key: 'scan' } as const, null, { shape:
 const board = atom({ plugin: 'open-loops', key: 'board' } as const, null as Board | null, { shape: 'board-1' })
 // Ids handed to Claude this turn; cleared when the turn ends and the file is reread.
 const sent = atom({ plugin: 'open-loops', key: 'sent' } as const, [] as number[], { shape: 'sent-2' })
-// Text from `/task <text>`, submitted to Claude when the command's turn ends: a
+// Text from `/todo <text>`, submitted to Claude when the command's turn ends: a
 // prompt cannot be submitted from inside the command itself.
 const pending = atom({ plugin: 'open-loops', key: 'pending' } as const, null as string | null, { shape: 'pending-1' })
 // This session's own app id, so a row added from here can name it in `source`.
@@ -173,14 +173,14 @@ export const register: Register = (on, options) => {
   on('session.start', async ($, e, next) => {
     await $.command.register({ name: 'open-loops', description: 'Show the board (hot sessions, open tasks, done) in a pane' })
     await $.command.register({ name: 'board', description: 'Show the board (hot sessions, open tasks, done) in a pane' })
-    await $.command.register({ name: 'task', description: 'Add a task: /task <text, with a due date and who if any>; alone, opens the pane' })
+    await $.command.register({ name: 'todo', description: 'Add a task: /todo <text, with a due date and who if any>; alone, opens the pane' })
     void refresh($)
     $.clock.every(TICK_MS, () => void rescanSessions($))
     return next(e)
   })
 
   // Claude may have appended or closed rows during the turn, and other
-  // sessions moved on: reread both, free the handed rows, submit a queued /task.
+  // sessions moved on: reread both, free the handed rows, submit a queued /todo.
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
     if (!e.agentId) {
@@ -198,7 +198,7 @@ export const register: Register = (on, options) => {
   on('command.run', { command: 'open-loops' }, $ => openPane($)).catch(() => ({ text: 'Board: the pane could not be opened.' }))
   on('command.run', { command: 'board' }, $ => openPane($)).catch(() => ({ text: 'Board: the pane could not be opened.' }))
 
-  on('command.run', { command: 'task' }, async ($, e) => {
+  on('command.run', { command: 'todo' }, async ($, e) => {
     const text = e.args.trim()
     if (!text) {
       await openPane($)

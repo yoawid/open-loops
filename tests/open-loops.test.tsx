@@ -298,14 +298,14 @@ test('start and chase hand the row to Claude; the mark goes when the turn ends',
   await ui.unmount()
 })
 
-test('/task <text> asks Claude to add a row naming this session once the turn ends; bare /task opens the pane', OPTIONS, async ($, on) => {
+test('/todo <text> asks Claude to add a row naming this session once the turn ends; bare /todo opens the pane', OPTIONS, async ($, on) => {
   world(on, { text: FILE })
   const prompts: string[] = []
   on('prompt.submit', (_, e) => (prompts.push(e.text), { text: e.text }))
   await start($)
   expect(prompts.length).toBe(0)
 
-  const ran = await $.command.run({ ...LOOPS, command: 'task', args: 'ask Robin for the Q3 numbers by 20 Nov' })
+  const ran = await $.command.run({ ...LOOPS, command: 'todo', args: 'ask Robin for the Q3 numbers by 20 Nov' })
   expect(ran.text).toBe('Asking Claude to add: "ask Robin for the Q3 numbers by 20 Nov".')
   expect(prompts.length).toBe(0)
   await $.turn.complete({ ...END, turnId: 't2' })
@@ -314,7 +314,7 @@ test('/task <text> asks Claude to add a row naming this session once the turn en
   await $.turn.complete({ ...END, turnId: 't3' })
   expect(prompts.length).toBe(1)
 
-  const bare = await $.command.run({ ...LOOPS, command: 'task' })
+  const bare = await $.command.run({ ...LOOPS, command: 'todo' })
   expect(bare.text).toBe('Board opened.')
   const board = await $.command.run({ ...LOOPS, command: 'board' })
   expect(board.text).toBe('Board opened: 5 open tasks.')
