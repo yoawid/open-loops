@@ -1,6 +1,10 @@
 # open-loops
 
-A board beside your Claude Code chat that shows what is still open: the sessions you touched in the last 24 hours, the tasks in a plain markdown file, and what you closed lately. It is a Claude Code mod (a plugin of function hooks), so it runs inside Claude Code and reads only files on your own computer.
+A board beside your Claude Code chat for what's still open: sessions waiting on you, tasks in a plain markdown file.
+
+![The Open column of the board: an overdue row in red, one due today in amber, rows waiting on others with a chase button, and undated work with a start button](docs/board.png)
+
+It shows the sessions you touched in the last 24 hours, the open rows of your tasks file, and what you closed lately. It is a Claude Code mod (a plugin of function hooks), so it runs inside Claude Code and reads only files on your own computer.
 
 ## What the board shows
 
@@ -11,6 +15,8 @@ A board beside your Claude Code chat that shows what is still open: the sessions
 **Done.** The latest closed rows (10 by default).
 
 `/board` or `/open-loops` opens the board. `/task <text>` asks Claude to add a row, taking a due date and a person from the text when it names them. With the default settings, starting a message with `task:` works too.
+
+In the desktop app, a session you open or come back to may not have started Claude yet. The commands are listed once it has, so after your first message in that session.
 
 ## Install
 

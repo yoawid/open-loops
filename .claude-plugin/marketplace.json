@@ -1,5 +1,14 @@
 {
   "name": "open-loops",
-  "owner": { "name": "Yoann" },
-  "plugins": [{ "name": "open-loops", "source": "./" }]
+  "owner": {
+    "name": "Yoann Widborg",
+    "url": "https://github.com/yoawid"
+  },
+  "description": "open-loops, a board beside your Claude Code chat for sessions waiting on you and tasks in a plain markdown file.",
+  "plugins": [
+    {
+      "name": "open-loops",
+      "source": "./"
+    }
+  ]
 }

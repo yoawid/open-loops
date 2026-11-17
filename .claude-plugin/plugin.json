@@ -1,11 +1,22 @@
 {
   "name": "open-loops",
-  "version": "1.0.0",
-  "description": "A board beside the chat: Claude Code sessions touched in the last 24 h (red when one waits on you), the open rows of a markdown tasks file with done / drop / start / chase / open, and the latest closed rows. /task <text> asks Claude to add a row.",
+  "version": "1.0.1",
+  "description": "A board beside your Claude Code chat for what's still open: sessions waiting on you, tasks in a plain markdown file.",
   "author": {
-    "name": "Yoann"
+    "name": "Yoann Widborg",
+    "url": "https://github.com/yoawid"
   },
+  "homepage": "https://github.com/yoawid/open-loops",
+  "repository": "https://github.com/yoawid/open-loops",
   "license": "MIT",
+  "keywords": [
+    "tasks",
+    "todo",
+    "sessions",
+    "board",
+    "productivity",
+    "claude-code"
+  ],
   "types": "./types/index.d.ts",
   "userConfig": {
     "tasksFile": {

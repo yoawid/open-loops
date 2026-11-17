@@ -161,11 +161,14 @@ async function openPane($: EngineInterface): Promise<{ text: string }> {
 export const register: Register = (on, options) => {
   cfg = configOf(options)
 
-  on('prompt.compose', async ($, e, next) => {
-    const result = await next(e)
-    if (!cfg.teachClaude) return result
-    return { sections: [...result.sections, { id: 'open-loops:tasks', text: teaching(cfg), scope: 'session' as const }] }
-  }).catch(($, e, next) => next(e))
+  // Hooked only when on: a hook that is there but answers nothing still gets
+  // a "skipped" notice in organizations whose security module runs first.
+  if (cfg.teachClaude) {
+    on('prompt.compose', async ($, e, next) => {
+      const result = await next(e)
+      return { sections: [...result.sections, { id: 'open-loops:tasks', text: teaching(cfg), scope: 'session' as const }] }
+    }).catch(($, e, next) => next(e))
+  }
 
   on('session.start', async ($, e, next) => {
     await $.command.register({ name: 'open-loops', description: 'Show the board (hot sessions, open tasks, done) in a pane' })
