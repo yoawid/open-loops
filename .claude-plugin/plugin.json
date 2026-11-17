@@ -1,0 +1,42 @@
+{
+  "name": "open-loops",
+  "version": "1.0.0",
+  "description": "A board beside the chat: Claude Code sessions touched in the last 24 h (red when one waits on you), the open rows of a markdown tasks file with done / drop / start / chase / open, and the latest closed rows. /task <text> asks Claude to add a row.",
+  "author": {
+    "name": "Yoann"
+  },
+  "license": "MIT",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "tasksFile": {
+      "type": "string",
+      "title": "Tasks file",
+      "description": "The markdown file that holds your tasks table, relative to your home folder (or absolute, or starting with ~/). Created with the table header when it does not exist.",
+      "default": "tasks.md"
+    },
+    "me": {
+      "type": "string",
+      "title": "Your name in the who column",
+      "description": "Rows with this name are your own work (start button); any other name is someone you wait on (chase button). New rows get it when the text names nobody.",
+      "default": "me"
+    },
+    "homeFolder": {
+      "type": "string",
+      "title": "Home folder",
+      "description": "The name of the folder you usually work in. Sessions there show no folder label; sessions elsewhere do. Empty labels every session.",
+      "default": ""
+    },
+    "doneLimit": {
+      "type": "number",
+      "title": "Done rows shown",
+      "description": "How many closed rows the Done column shows, newest first.",
+      "default": 10
+    },
+    "teachClaude": {
+      "type": "boolean",
+      "title": "Teach Claude the tasks file",
+      "description": "Adds a short note to Claude's instructions in every session: where the tasks file is, and that \"task: ...\" in a message means add a row. Turn off if your own CLAUDE.md already says this.",
+      "default": true
+    }
+  }
+}

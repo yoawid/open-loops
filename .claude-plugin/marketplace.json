@@ -1,0 +1,5 @@
+{
+  "name": "open-loops",
+  "owner": { "name": "Yoann" },
+  "plugins": [{ "name": "open-loops", "source": "./" }]
+}
