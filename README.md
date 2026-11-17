@@ -65,9 +65,27 @@ One markdown table, one row per task. Everything outside the table is left alone
 
 The tasks part works anywhere Claude Code runs. The Hot column and the `open` buttons read the session records the Claude desktop app keeps. On macOS that is tested. On Windows (`%APPDATA%\Claude`) and Linux (`~/.config/Claude`) the plugin looks in the usual places but nobody has tested it there yet. When it finds no records, the column says so and the rest of the board works.
 
-## Privacy
+## Privacy and permissions
 
-The board reads your tasks file and the desktop app's session records on your own disk, and writes only to the tasks file. It sends nothing anywhere. The `start`, `chase` and `/task` buttons put a prompt in your chat, which goes to Claude like anything else you type.
+The mod sends nothing over the network itself. Everything below happens on your own computer, except the prompts it puts in your chat, which go to Claude like anything you type.
+
+**What it reads.** Your tasks file, and the session records the Claude desktop app keeps on disk (on macOS `~/Library/Application Support/Claude/claude-code-sessions`): each session's title, folder, last activity, whether it waits on you, and the one-line recap the app shows. It does not read your conversations.
+
+**What it writes.** Only your tasks file, at the path in the Tasks file setting. A change rewrites one row (add, done, drop); a file that does not exist yet is created with the table header. Nothing else on disk is written.
+
+**What it puts in your chat.** The buttons and `/task` submit a prompt as if you had typed it:
+
+- `start`: "Start on task 7: "Write the launch post" (tasks.md row 7). Say in one line what you plan to do, then do it; when it is done ask me before marking the row done."
+- `chase`: "Chase task 5: "Numbers for the Q4 forecast", waiting on Sam (tasks.md row 5). Draft a short follow-up to Sam here in chat for me to send myself; don't send anything."
+- `/task <text>`: "Add a task to tasks.md: "<text>". One row in the table…", with the date, due date and who rules.
+
+Claude only drafts a follow-up; the mod never sends a message to anyone.
+
+**What it adds to Claude's instructions.** With Teach Claude the tasks file on (the default), one short paragraph: where the tasks file is, and that a message starting with `task:` means add a row. Turn the setting off and the mod does not touch Claude's instructions at all.
+
+**Programs it runs.** One: the `open` button on a session runs your system's own link opener (`open` on macOS, `xdg-open` on Linux, `start` on Windows) on that session's `claude://` link, which switches the desktop app to it. Nothing else is started.
+
+**Hooks.** Besides the prompt paragraph above, it registers `/board`, `/open-loops` and `/task` and answers them itself, rereads the tasks file and session records when a turn ends, and draws the board pane.
 
 ## Development
 
